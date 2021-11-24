@@ -36,3 +36,5 @@ terraform.rc
 # Ignore Terraform lock files
 **/.terraform.lock.*/*
 
+# Ignore build files
+**/*.zip/*
