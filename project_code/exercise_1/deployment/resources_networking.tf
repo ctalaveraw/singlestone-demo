@@ -72,10 +72,6 @@ resource "aws_lb" "lambda-alb" {
   }
 }
 
-/*
-okay, so I had a rogue ALB from this project that I had to manually delete
-*/
-
 /*The following resources are for the ALB attached to the Lambda function
 */
 
