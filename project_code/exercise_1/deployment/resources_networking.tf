@@ -96,3 +96,14 @@ resource "aws_lb_target_group_attachment" "test" {
   target_id        = aws_lambda_function.lambda.arn
   depends_on       = [aws_lambda_permission.with_lb]
 }
+
+## This allows the ALB to listen for HTTP requests
+resource "aws_lb_listener" "lambda-listener" {
+  load_balancer_arn = aws_lb.lambda-alb.arn
+  port              = "80"
+  protocol          = "HTTP"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target-lambda.arn
+  }
+}
