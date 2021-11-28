@@ -1,11 +1,3 @@
-## Variables defined here
-
-## Name of function defined here
-variable "lambda_function_name" {
-  description = "Name of the created Lambda function for use elsewhere in code"
-  type        = string
-  default     = "lambda-random-fortune"
-}
 
 
 /*
@@ -30,5 +22,11 @@ variable "app_code_path" {
 }
 variable "app_code_output" {
   description = "The path where the Lambda Python app package is outputted"
+  type        = string
+}
+
+## Name of Lambda function defined here
+variable "lambda_function_name" {
+  description = "Name of the created Lambda function for use elsewhere in code"
   type        = string
 }

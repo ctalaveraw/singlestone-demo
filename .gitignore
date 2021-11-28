@@ -38,3 +38,4 @@ terraform.rc
 
 # Ignore build files
 *.zip
+build_files/
