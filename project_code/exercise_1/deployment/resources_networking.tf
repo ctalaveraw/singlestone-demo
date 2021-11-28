@@ -45,7 +45,7 @@ resource "aws_default_security_group" "allow_lambda_traffic" {
   }
 
   egress {
-    description = ""
+    description = "TLS from VPC"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -64,13 +64,17 @@ resource "aws_lb" "lambda-alb" {
   internal                   = false
   load_balancer_type         = "application"
   security_groups            = [aws_default_security_group.allow_lambda_traffic.id]
-  subnets                    = ["${aws_subnet.lambda-subnet-1.id}","${aws_subnet.lambda-subnet-2.id}"]
+  subnets                    = ["${aws_subnet.lambda-subnet-1.id}", "${aws_subnet.lambda-subnet-2.id}"]
   enable_deletion_protection = false
 
   tags = {
     Name = "random-fortune"
   }
 }
+
+/*
+okay, so I had a rogue ALB from this project that I had to manually delete
+*/
 
 /*The following resources are for the ALB attached to the Lambda function
 */
