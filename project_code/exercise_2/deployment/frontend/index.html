@@ -12,11 +12,20 @@
     <p id="fortune">Loading...</p>
     <p>Version 0.2</p>
     <script>
-        fetch('/fortune').then(resp => resp.json()).then(data => {
-            document.getElementById("fortune").innerText = data.fortune;
-        })
+    // the hello world program
+    document.write('Hello, this shows Javascript works');
+    // other test code
+    fetch('https://wh2xrnh374.execute-api.us-east-1.amazonaws.com/*').then(response => {
+        document.getElementById("fortune").innerText = data.response;
+    })
     </script>
 <! The 'script' block represents client-side JavaScript to be run>
 </body>
 </html>
 
+<script>
+// the lambda url is below:
+// https://wh2xrnh374.execute-api.us-east-1.amazonaws.com/*
+// CORS must be enabled:
+// https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html
+</script>
