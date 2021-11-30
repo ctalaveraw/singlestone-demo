@@ -139,7 +139,6 @@ def lambda_handler(event: ALBEvent, context: ALBContext):
 
         Context doc: https://docs.aws.amazon.com/lambda/latest/dg/python-context.html
     """
-
     # We need to wrap this in a try/except in case the 3rd party API goes down.
     try:
         fortuneResponse = requests.get("http://yerkee.com/api/fortune/computers").json()
@@ -167,6 +166,7 @@ def lambda_handler(event: ALBEvent, context: ALBContext):
             }
         }
 
+
     logger.info(fortuneResponse)
 
     # If no prefix is provided, the app will not supply a default.
@@ -187,5 +187,8 @@ def lambda_handler(event: ALBEvent, context: ALBContext):
         }),
         "headers": {
                 'Content-Type': 'application/json',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type'
             }
         }
