@@ -3,6 +3,11 @@
 
 #!/bin/bash
 
+## Don't run until instance is fully up
+until [[ -f /var/lib/cloud/instance/boot-finished ]]; do
+    sleep 1
+done
+
 ## Run OS updates
 yum update -y
 
