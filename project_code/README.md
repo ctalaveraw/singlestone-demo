@@ -31,7 +31,7 @@ The toolset used to build this project is:
         - IAM secret key
 
 ## Project architecture
-`exercise_1`
+[`exercise_1`](exercise_1/)
 
 *Lambda function deployment on AWS using Terraform*
 
@@ -41,7 +41,7 @@ The toolset used to build this project is:
 4. The function will be deployed with automation on AWS using Terraform
 5. CloudWatch metrics are automatically implemented for the created Lambda function with Terraform
 
-`exercise_2`
+[`exercise_2`](exercise_2/)
 
 *Deployment of scalable web server calling Lambda  on AWS using Terraform*
 
