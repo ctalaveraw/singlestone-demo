@@ -9,7 +9,7 @@ The toolset used to build this project is:
 - JavaScript - the frontend of the web application calling the Lambda function is in JavaScript
 - Terraform - automated, platform-agnostic IaC infrastructure provisioning tool to deploy the app on the cloud
 - AWS - cloud service provider that will host the actual project
-    - exercise_1
+    - [`exercise_1`](exercise_1/)
         - Lambda - scalable, serverless compute platform to run the random fortune app
         - API Gateway - infrastructure to make an API for the Lambda function
         - IAM roles - to give Lambda permission
@@ -17,7 +17,7 @@ The toolset used to build this project is:
         - Security Group - to allow public access
         - ALB - Application Load Balancer handles requests for high-availability
             - 2x Subnets - for ALB to distribute traffic 
-    - exercise_2
+    - [`exercise_2`](exercise_2/)
         - EC2 - to host a static website to call the created Lambda function (*coupled to output from Lambda function*)
         - Auto Scaling Group - to allow for website to scale based on traffic demand
 
