@@ -1,0 +1,24 @@
+## Sensitive/deployment specific values are stored in the *.tfvars file
+## Rename this file to have the *tfvars extension 
+
+/*
+These store the access keys for the AWS account; this should not have public access
+*/
+
+aws_access_key = "INSERT_ACCESS_KEY_HERE"
+aws_secret_key = "INSERT_SECRET_KEY_HERE"
+
+/*
+These store the paths for the Lambda app source code
+They can be exchanged for any other functional app code written for Lambda
+*/
+
+app_code_path   = "source_code"
+app_code_output = "source_code/build_files/lambda_fortune_app.zip"
+
+/*
+This stores the name of the created Lambda function
+If using another Lambda app, some names in the Terraform project needs refactoring
+*/
+
+lambda_function_name = "random-fortune"
