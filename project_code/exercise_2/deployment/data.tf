@@ -1,20 +1,17 @@
 
-## Data source to access list of AWS Availiability Zones
+## Data source for AWS availibility zones
 data "aws_availability_zones" "available" {}
 
-/*
-Data source to access AMI list offered by AWS
-"Amazon Linux 2" will be defined
-*/
+## Define AMI for use with EC2 instances
 data "aws_ami" "amazon-linux-2" {
   most_recent = true
-  owners      = ["self"]
-  filter { # No need to use anything but Amazon-made images!
-    name   = "owner-alias"
-    values = ["amazon"]
+  owners      = ["amazon"]
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
   }
-  filter { # Filtering for Amazon Linux AMIs using HVM virtualization on EBS
+  filter {
     name   = "name"
-    values = ["amzn2-ami-hvm-*-x86_64-ebs"]
+    values = ["amzn2-ami-hvm*"]
   }
 }

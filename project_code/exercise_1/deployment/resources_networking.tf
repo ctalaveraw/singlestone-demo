@@ -6,6 +6,14 @@ resource "aws_default_vpc" "default" {
   }
 }
 
+## This allows usage of the default subnet for a given AZ
+resource "aws_default_subnet" "default_az1" {
+  availability_zone = "us-east-1a"
+   tags = {
+   Name = "Default subnet for us-east-1a"
+  }
+}
+
 ## This creates one subnet for use by the ALB linked to the Lambda function
 resource "aws_subnet" "lambda-subnet-1" {
   vpc_id                  = aws_default_vpc.default.id
@@ -14,7 +22,7 @@ resource "aws_subnet" "lambda-subnet-1" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "random-fortune"
+    Name = "lambda-subnet-1"
   }
 }
 
@@ -27,7 +35,7 @@ resource "aws_subnet" "lambda-subnet-2" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "random-fortune"
+    Name = "lambda-subnet-2"
   }
 }
 
@@ -52,7 +60,7 @@ resource "aws_default_security_group" "allow_lambda_traffic" {
   }
 
   tags = {
-    Name = "random-fortune"
+    Name = "sg-allow-lambda-traffic"
   }
 }
 
@@ -68,7 +76,7 @@ resource "aws_lb" "lambda-alb" {
   enable_deletion_protection = false
 
   tags = {
-    Name = "random-fortune"
+    Name = "lambda-alb"
   }
 }
 

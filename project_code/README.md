@@ -168,7 +168,7 @@ The toolset used to build this project is:
     
     ...
     ```
-7. Edit the `local_deployment.tfvars` file to add SSH keys for Terraform's access to AWS:
+7. Edit the `local_deployment.tfvars` file to add the path of the created SSH keys for Terraform's access to AWS:
     ```
     ...
 

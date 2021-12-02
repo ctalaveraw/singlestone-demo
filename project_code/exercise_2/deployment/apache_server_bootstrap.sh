@@ -29,7 +29,7 @@ echo "<!DOCTYPE html>
     <p id='fortune'>Loading...</p>
     <p>Version 0.2</p>
     <script>
-    fetch('https://ipqy2r8hp8.execute-api.us-east-1.amazonaws.com/*').then(resp => resp.json()).then(data => {
+    fetch('https://3h8lkk25fb.execute-api.us-east-1.amazonaws.com/*').then(resp => resp.json()).then(data => {
         document.getElementById('fortune').innerText = data['fortune']
     });
     </script>
@@ -39,7 +39,7 @@ echo "<!DOCTYPE html>
 
 <script>
 // the lambda url is dependent upon exercise_1 deployment to get the URL of the associated API gateway
-</script>" > ./index.html
+</script>" > /var/www/html/index.html
 
 ## Start the Apache system service
 systemctl start httpd
