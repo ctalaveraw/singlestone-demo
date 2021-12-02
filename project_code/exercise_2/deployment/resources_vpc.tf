@@ -57,7 +57,7 @@ resource "aws_route_table" "fortune-vpc-rt-public" {
   vpc_id = aws_vpc.fortune-vpc.id
   route = { # Route all IP traffic to Internet Gateway
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.fortune-vpc-igw.id
+    gateway_id = "${aws_internet_gateway.fortune-vpc-igw.id}"
   }
   tags = {
     Name = "fortune-vpc-rt-public"

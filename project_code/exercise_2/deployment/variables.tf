@@ -1,3 +1,11 @@
+##
+variable "instance_username" {
+  description = "This represents the default user for the instance"
+  type        = string
+  default     = "ec2-user"
+}
+
+
 /*
 Actual values are stored in a *.tfvars file
 Create a custom *.tfvars file for personal deployments

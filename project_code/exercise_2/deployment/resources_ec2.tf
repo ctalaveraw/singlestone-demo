@@ -28,9 +28,9 @@ resource "aws_instance" "fortune-web-server" {
     ]
   }
   connection {
-    host        = ""
     type        = "ssh"
-    user        = ""
+    host        = coalesce(self.public_ip, self.private_ip)
+    user        = var.instance_username
     private_key = file(var.aws_ssh_key_private_fortune)
   }
 }

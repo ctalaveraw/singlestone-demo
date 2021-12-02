@@ -18,10 +18,11 @@ resource "aws_nat_gateway" "fortune-vpc-natgw" {
 
 ## A route table will need to be defined to route traffic to NAT gateway
 resource "aws_route_table" "fortune-vpc-rt-private" {
-  vpc_id = aws_vpc.fortune-vpc.id
+  depends_on = [aws_internet_gateway.fortune-vpc-natgw]
+  vpc_id     = aws_vpc.fortune-vpc.id
   route = {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.fortune-vpc-natgw.id
+    nat_gateway_id = "${aws_nat_gateway.fortune-vpc-natgw.id}"
   }
   tags = {
     Name = "fortune-vpc-rt-private"

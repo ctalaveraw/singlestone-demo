@@ -6,3 +6,7 @@ Sensitive/deployment specific values are stored in the *.tfvars file
 aws_secret_key = "INSERT_SECRET_KEY_HERE"
 aws_access_key = "INSERT_ACCESS_KEY_HERE"
 
+## These point to the path of the EC2 instance's SSH keys
+aws_ssh_key_public_fortune = "PUT_PUBLIC_KEY_PATH_HERE"
+aws_ssh_key_private_fortune = "PUT_PRIVATE_KEY_PATH_HERE"
+

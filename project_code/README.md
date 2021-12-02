@@ -80,12 +80,16 @@ The toolset used to build this project is:
     ```
 4. Edit the `local_deployment.tfvars` file to add IAM secrets for Terraform's access to AWS:
     ```
+    ...
+
     /*
     These store the access keys for the AWS account; this should not have public access
     */
 
     aws_access_key = "INSERT_ACCESS_KEY_HERE"
     aws_secret_key = "INSERT_SECRET_KEY_HERE"
+    
+    ...
     ```
 5. Verify successful use of AWS access keys:
     ```
@@ -138,29 +142,48 @@ The toolset used to build this project is:
 
     ...
     ```
-3. Initialize Terraform:
+3. Create an SSH key pair using pre-built script:
+    ```
+    $ ./generate_key.sh
+    ```
+
+4. Initialize Terraform:
     ```
     $ terraform init
     ```
-4. Rename `local_deployment` to `local_deployment.tfvars`:
+5. Rename `local_deployment` to `local_deployment.tfvars`:
     ```
     $ mv local_deployment local_deployment.tfvars
     ```
-5. Edit the `local_deployment.tfvars` file to add IAM secrets for Terraform's access to AWS:
+6. Edit the `local_deployment.tfvars` file to add IAM secrets for Terraform's access to AWS:
     ```
+    ...
+
     /*
     These store the access keys for the AWS account; this should not have public access
     */
 
     aws_access_key = "INSERT_ACCESS_KEY_HERE"
     aws_secret_key = "INSERT_SECRET_KEY_HERE"
+    
+    ...
     ```
-6. Verify successful use of AWS access keys:
+7. Edit the `local_deployment.tfvars` file to add SSH keys for Terraform's access to AWS:
+    ```
+    ...
+
+    ## These point to the path of the EC2 instance's SSH keys
+    aws_ssh_key_public_fortune = "PUT_PUBLIC_KEY_PATH_HERE"
+    aws_ssh_key_private_fortune = "PUT_PRIVATE_KEY_PATH_HERE"
+    
+    ...
+    ```
+8. Verify successful use of AWS access keys:
     ```
     $ terraform plan -var-file=./local_deployment.tfvars
     ```
-7. If good to go, apply the deployment:
+9. If good to go, apply the deployment:
     ```
     $ terraform apply --auto-approve -var-file=./local_deployment.tfvars
     ```
-8. The web server calling the created Lambda application from [`exercise_1`](exercise_1/) should be successful; check the AWS admin console to verify resources are created
+10. The web server calling the created Lambda application from [`exercise_1`](exercise_1/) should be successful; check the AWS admin console to verify resources are created
