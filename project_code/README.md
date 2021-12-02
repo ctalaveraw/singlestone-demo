@@ -138,7 +138,8 @@ The toolset used to build this project is:
 
     <script>
     // the lambda url is dependent upon exercise_1 deployment to get the URL of the associated API gateway
-    </script>" > ./index.html
+    </script>" > /var/www/html/index.html
+
 
     ...
     ```
