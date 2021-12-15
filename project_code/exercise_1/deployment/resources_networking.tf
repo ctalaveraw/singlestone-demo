@@ -46,17 +46,19 @@ resource "aws_default_security_group" "allow_lambda_traffic" {
   vpc_id = aws_default_vpc.default.id
 
   ingress {
-    description = "TLS from VPC"
-    from_port   = 443
-    to_port     = 443
+    description = "all incoming HTTP traffic allowed"
     protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 80
+    to_port     = 80
   }
 
   egress {
-    description = "TLS from VPC"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    description = "all outgoing HTTP traffic allowed"
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 80
+    to_port     = 80
   }
 
   tags = {
