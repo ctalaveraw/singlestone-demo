@@ -1,13 +1,10 @@
+#!/bin/bash
+
 ## This script will bootstrap an Apache webserver
 ## It will host the Lambda app static webpage
 
-#!/bin/bash
-
 ## Don't run until instance is fully up
-until [[ -f /var/lib/cloud/instance/boot-finished ]]; do
-    sleep 1
-done
-
+sleep 5m
 ## Run OS updates
 yum update -y
 
