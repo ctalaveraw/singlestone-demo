@@ -114,7 +114,7 @@ The toolset used to build this project is:
 
 ### [`exercise_2`](exercise_2/)
 
-#### NOTE: [`exercise_1`](exercise_1/) must be deployed FIRST, as the URL of the created API gateway must be hard-coded into the "index.html" front-end webpage \*
+#### NOTE: [`exercise_1`](exercise_1/) must be deployed FIRST, as the URL of the created ALB behind the Lambda function must be hard-coded into the "index.html" front-end webpage \*
 
 1. Navigate to the deployment directory:
 
@@ -122,7 +122,7 @@ The toolset used to build this project is:
     cd exercise_2/deployment
     ```
 
-2. Edit the JavaScript code in the `apache_server_bootstrap.sh` bash script to use the URL of the API Gateway created from [`exercise_1`](exercise_1/):
+2. Edit the JavaScript code in the `apache_server_bootstrap.sh` bash script to use the URL of the ALB behind the Lambda function created from [`exercise_1`](exercise_1/):
 
     ``` bash
     ...
@@ -142,7 +142,7 @@ The toolset used to build this project is:
         <p id='fortune'>Loading...</p>
         <p>Version 0.2</p>
         <script>
-        fetch('INSERT_URL_OF_API_GATEWAY_HERE').then(resp => resp.json()).then(data => {
+        fetch('INSERT_URL_OF_ALB_BEHIND_LAMBDA_FUNCTION_HERE').then(resp => resp.json()).then(data => {
             document.getElementById('fortune').innerText = data['fortune']
         });
         </script>

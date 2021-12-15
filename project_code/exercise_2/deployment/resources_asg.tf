@@ -1,11 +1,12 @@
 
 ## The 'launch configuration' needs to be defined
 resource "aws_launch_configuration" "fortune-launch-config" {
-  name          = "fortune-launch-config"
-  image_id      = data.aws_ami.amazon-linux-2.id
-  instance_type = "t3.micro"
-  key_name      = aws_key_pair.fortune-keypair.key_name
-  user_data     = <<EOT
+  name            = "fortune-launch-config"
+  image_id        = data.aws_ami.amazon-linux-2.id
+  instance_type   = "t3.micro"
+  security_groups = ["${aws_security_group.fortune-security-group.id}"]
+  key_name        = aws_key_pair.fortune-keypair.key_name
+  user_data       = <<EOT
   ## This script will bootstrap an Apache webserver
   ## It will host the Lambda app static webpage
 
@@ -37,7 +38,7 @@ resource "aws_launch_configuration" "fortune-launch-config" {
       <p id='fortune'>Loading...</p>
       <p>Version 0.2</p>
       <script>
-      fetch('https://3h8lkk25fb.execute-api.us-east-1.amazonaws.com/*').then(resp => resp.json()).then(data => {
+      fetch('http://lambda-alb-1379107626.us-east-1.elb.amazonaws.com/').then(resp => resp.json()).then(data => {
           document.getElementById('fortune').innerText = data['fortune']
       });
       </script>
