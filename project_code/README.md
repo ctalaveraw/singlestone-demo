@@ -158,25 +158,91 @@ The toolset used to build this project is:
     ...
     ```
 
-3. Create an SSH key pair using pre-built script:
+3. Edit the `user_data` part of the `resources_asg.tf` file to use the URL of the ALB behind the Lambda function created from [`exercise_1`](exercise_1/):
+
+    ``` HCL
+      ...
+        resource "aws_launch_configuration" "fortune-launch-config" {
+      name            = "fortune-launch-config"
+      image_id        = data.aws_ami.amazon-linux-2.id
+      instance_type   = "t3.micro"
+      security_groups = ["${aws_security_group.fortune-security-group.id}"]
+      key_name        = aws_key_pair.fortune-keypair.key_name
+      user_data       = <<EOT
+      ## This script will bootstrap an Apache webserver
+      ## It will host the Lambda app static webpage
+
+      #!/bin/bash
+
+      ## Don't run until instance is fully up
+      until [[ -f /var/lib/cloud/instance/boot-finished ]]; do
+          sleep 1
+      done
+
+      ## Run OS updates
+      yum update -y
+
+      ## Install Apache webserver
+      yum install -y httpd
+
+      ## Create the index.html homepage
+      echo "<!DOCTYPE html>
+      <html lang='en'>
+      <head>
+          <meta charset='UTF-8'>
+          <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+          <title>Fortune Frontend</title>
+      </head>
+      <! The above 'head' block contains formatting information>
+
+      <body>
+          <h2>Your fortune is:</h2>
+          <p id='fortune'>Loading...</p>
+          <p>Version 0.2</p>
+          <script>
+          fetch('INSERT_URL_OF_ALB_BEHIND_LAMBDA_FUNCTION_HERE').then(resp => resp.json()).then(data => {
+              document.getElementById('fortune').innerText = data['fortune']
+          });
+          </script>
+      <! The 'script' block represents client-side JavaScript to be run>
+      </body>
+      </html>
+
+      <script>
+      // the lambda url is dependent upon exercise_1 deployment to get the URL of the associated API gateway
+      </script>" > /var/www/html/index.html
+
+      ## Start the Apache system service
+      systemctl start httpd
+
+      ## Enable the Apache system service
+      systemctl enable httpd
+
+    EOT
+    }
+    ...
+
+    ```
+
+4. Create an SSH key pair using pre-built script:
 
     ``` bash
     ./generate_key.sh
     ```
 
-4. Initialize Terraform:
+5. Initialize Terraform:
 
     ``` bash
     terraform init
     ```
 
-5. Rename `local_deployment` to `local_deployment.tfvars`:
+6. Rename `local_deployment` to `local_deployment.tfvars`:
 
     ``` bash
     mv local_deployment local_deployment.tfvars
     ```
 
-6. Edit the `local_deployment.tfvars` file to add IAM secrets for Terraform's access to AWS:
+7. Edit the `local_deployment.tfvars` file to add IAM secrets for Terraform's access to AWS:
 
     ``` bash
     /*
@@ -187,7 +253,7 @@ The toolset used to build this project is:
     aws_secret_key = "INSERT_SECRET_KEY_HERE"
     ```
 
-7. Edit the `local_deployment.tfvars` file to add the path of the created SSH keys for Terraform's access to AWS:
+8. Edit the `local_deployment.tfvars` file to add the path of the created SSH keys for Terraform's access to AWS:
 
     ``` bash
     ## These point to the path of the EC2 instance's SSH keys
@@ -195,19 +261,19 @@ The toolset used to build this project is:
     aws_ssh_key_private_fortune = "PUT_PRIVATE_KEY_PATH_HERE"
     ```
 
-8. Verify successful use of AWS access keys:
+9. Verify successful use of AWS access keys:
 
     ``` bash
     terraform plan -var-file=./local_deployment.tfvars
     ```
 
-9. If good to go, apply the deployment:
+10. If good to go, apply the deployment:
 
     ``` bash
     terraform apply --auto-approve -var-file=./local_deployment.tfvars
     ```
 
-10. The web server calling the created Lambda application from [`exercise_1`](exercise_1/) should be successful; check the AWS admin console to verify resources are created
+11. The web server calling the created Lambda application from [`exercise_1`](exercise_1/) should be successful; check the AWS admin console to verify resources are created
 
 ## Timeline of work
 

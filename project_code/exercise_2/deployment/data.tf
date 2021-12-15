@@ -15,3 +15,7 @@ data "aws_ami" "amazon-linux-2" {
     values = ["amzn2-ami-hvm*"]
   }
 }
+## Define a template file data for launch configuration
+resource "template_file" "user_data" {
+  template = "apache_server_bootstrap.sh"
+}
