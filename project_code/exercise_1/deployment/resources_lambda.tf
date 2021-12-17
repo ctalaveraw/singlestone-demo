@@ -1,8 +1,3 @@
-## Several different resources will need to be created.
-## This is required to get the Lambda function working
-
-
-
 # This creates the actual Lambda function itself
 resource "aws_lambda_function" "lambda" {
   filename         = data.archive_file.lambda_zip.output_path
@@ -19,14 +14,3 @@ resource "aws_lambda_function" "lambda" {
     Name = "random-fortune"
   }
 }
-
-# This is to manage the CloudWatch Log Group for the Lambda Function.
-resource "aws_cloudwatch_log_group" "lambda_cloudwatch" {
-  name              = "/aws/lambda/${var.lambda_function_name}"
-  retention_in_days = 14
-  tags = {
-    Name = "random-fortune-lg"
-  }
-}
-
-
