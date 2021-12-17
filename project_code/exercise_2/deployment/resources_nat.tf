@@ -19,7 +19,7 @@ resource "aws_nat_gateway" "fortune-vpc-natgw" {
 resource "aws_route_table" "fortune-vpc-rt-private" {
   vpc_id = aws_vpc.fortune-vpc.id
   route = [
-    {
+    { # All values need to be defined, even if not used
       cidr_block                 = "0.0.0.0/0"
       nat_gateway_id             = "${aws_nat_gateway.fortune-vpc-natgw.id}"
       gateway_id                 = ""
