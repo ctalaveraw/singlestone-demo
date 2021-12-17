@@ -1,19 +1,3 @@
-
-## This allows usage of the built-in default VPC
-resource "aws_default_vpc" "default" {
-  tags = {
-    Name = "Default VPC"
-  }
-}
-
-## This allows usage of the default subnet for a given AZ
-resource "aws_default_subnet" "default_az1" {
-  availability_zone = "us-east-1a"
-  tags = {
-    Name = "Default subnet for us-east-1a"
-  }
-}
-
 ## This creates one subnet for use by the ALB linked to the Lambda function
 resource "aws_subnet" "lambda-subnet-1" {
   vpc_id                  = aws_default_vpc.default.id
@@ -22,7 +6,7 @@ resource "aws_subnet" "lambda-subnet-1" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "lambda-subnet-1"
+    Name = "random-fortune-alb-subnet-1"
   }
 }
 
@@ -35,7 +19,7 @@ resource "aws_subnet" "lambda-subnet-2" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "lambda-subnet-2"
+    Name = "random-fortune-alb-subnet-2"
   }
 }
 
@@ -62,15 +46,15 @@ resource "aws_default_security_group" "allow_lambda_traffic" {
   }
 
   tags = {
-    Name = "sg-allow-lambda-traffic"
+    Name = "random-fortune-sg-allow-lambda-traffic"
   }
 }
 
 
 
 ## This creates the ALB that the Lambda function will point to
-resource "aws_lb" "lambda-alb" {
-  name                       = "lambda-alb"
+resource "aws_lb" "random-fortune-alb" {
+  name                       = "random-fortune-alb"
   internal                   = false
   load_balancer_type         = "application"
   security_groups            = [aws_default_security_group.allow_lambda_traffic.id]
@@ -78,7 +62,7 @@ resource "aws_lb" "lambda-alb" {
   enable_deletion_protection = false
 
   tags = {
-    Name = "lambda-alb"
+    Name = "random-fortune-alb"
   }
 }
 
@@ -109,7 +93,7 @@ resource "aws_lb_target_group_attachment" "test" {
 
 ## This allows the ALB to listen for HTTP requests
 resource "aws_lb_listener" "lambda-listener" {
-  load_balancer_arn = aws_lb.lambda-alb.arn
+  load_balancer_arn = aws_lb.random-fortune-alb.arn
   port              = "80"
   protocol          = "HTTP"
   default_action {

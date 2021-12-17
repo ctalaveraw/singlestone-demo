@@ -8,7 +8,7 @@ resource "aws_lambda_function" "lambda" {
   filename         = data.archive_file.lambda_zip.output_path
   function_name    = var.lambda_function_name
   role             = aws_iam_role.lambda-iam.arn
-  handler          = "random_fortune.lambda_handler"
+  handler          = "random-fortune.lambda_handler" # The format for this is "code_file_name.lambda_handler"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   runtime          = "python3.8"
   depends_on = [
@@ -25,7 +25,7 @@ resource "aws_cloudwatch_log_group" "lambda_cloudwatch" {
   name              = "/aws/lambda/${var.lambda_function_name}"
   retention_in_days = 14
   tags = {
-    Name = "random-fortune"
+    Name = "random-fortune-lg"
   }
 }
 

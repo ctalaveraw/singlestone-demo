@@ -17,7 +17,7 @@ resource "aws_iam_role" "lambda-iam" {
     ]
   })
   tags = {
-    Name = "random-fortune"
+    Name = "random-fortune-iam-role"
   }
 }
 
@@ -45,7 +45,7 @@ resource "aws_iam_policy" "lambda_logging" {
 }
 EOF
   tags = {
-    Name = "random-fortune"
+    Name = "random-fortune-logging-policy"
   }
 }
 
