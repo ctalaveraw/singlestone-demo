@@ -1,7 +1,7 @@
 import json # Needed because AWS Lambda outputs JSON objects
 import requests # Needed because the project deals with HTTP requests, to fetch the fortune
 import os # Needed to interact with the operating system specific commands.
-import sys # Needed to interact with the Python interpreter directly for deug info.
+import sys # Needed to interact with the Python interpreter directly for debug info.
 import logging # Needed to capture debug and detailed logging info.
 import traceback # Needed to interact with traceback info.
 
@@ -53,7 +53,7 @@ Example Application Load Balancer request event
         "x-forwarded-for": "72.12.164.125",
         "x-forwarded-port": "80",
         "x-forwarded-proto": "http",
-        "x-imforwards": "20"
+        "x-inforwards": "20"
     },
     "body": "",
     "isBase64Encoded": false
@@ -187,8 +187,8 @@ def lambda_handler(event: ALBEvent, context: ALBContext):
         }),
         "headers": {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Content-Type'
+                'Access-Control-Allow-Headers': 'Content-Type', # Enabling HTTP headers
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET', # Enabling common HTTP request types
+                'Access-Control-Allow-Origin': '*', # Cross-origin is disabled by default; enabled for debugging
             }
         }
