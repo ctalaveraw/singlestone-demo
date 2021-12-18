@@ -1,5 +1,6 @@
 # This creates the actual Lambda function itself
 resource "aws_lambda_function" "lambda" {
+  description      = "A Lambda function to fetch a 'random fortune' via HTTP request from an API"
   filename         = data.archive_file.lambda_zip.output_path
   function_name    = var.lambda_function_name
   role             = aws_iam_role.lambda-iam.arn

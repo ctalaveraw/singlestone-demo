@@ -3,10 +3,10 @@
 resource "aws_launch_configuration" "fortune-launch-config" {
   name            = "fortune-launch-config"
   image_id        = data.aws_ami.amazon-linux-2.id
-  instance_type   = "t3.micro"
+  instance_type   = "t2.micro"
   security_groups = ["${aws_security_group.fortune-security-group.id}"]
   key_name        = aws_key_pair.fortune-keypair.key_name
-  user_data       = "${template_file.user_data.rendered}"
+  user_data       = file("./apache_server_bootstrap.sh")
 }
 
 ## The autoscaling group needs to be defined
@@ -14,7 +14,7 @@ resource "aws_autoscaling_group" "fortune-group-autoscale" {
   name                      = "fortune-group-autoscale"
   vpc_zone_identifier       = [aws_subnet.fortune-subnet-public-1.id]
   launch_configuration      = aws_launch_configuration.fortune-launch-config.name
-  min_size                  = 1
+  min_size                  = 2
   max_size                  = 4
   desired_capacity          = 2
   health_check_grace_period = 100
@@ -24,6 +24,9 @@ resource "aws_autoscaling_group" "fortune-group-autoscale" {
     key                 = "Name"
     value               = "fortune-web-server"
     propagate_at_launch = true
+  }
+  lifecycle {
+    ignore_changes = [load_balancers, target_group_arns]
   }
 }
 

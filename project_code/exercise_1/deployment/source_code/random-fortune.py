@@ -187,8 +187,8 @@ def lambda_handler(event: ALBEvent, context: ALBContext):
         }),
         "headers": {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Headers': 'Content-Type', # Enabling HTTP headers
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET', # Enabling common HTTP request types
                 'Access-Control-Allow-Origin': '*', # Cross-origin is disabled by default; enabled for debugging
+                'Access-Control-Allow-Headers': 'Content-Type' # Enabling HTTP headers
             }
         }
