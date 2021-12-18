@@ -2,6 +2,10 @@
 
 This demo will deploy a serverless web application that fetches a randomly generated fortune.
 
+Current example of running project:
+- [Lambda Function behind ALB](http://random-fortune-alb-1107252489.us-east-1.elb.amazonaws.com/)
+- [Web Server calling Lambda Function](http://fortune-webapp-alb-2007243567.us-east-1.elb.amazonaws.com/)
+
 The toolset used to build this project is:
 
 - GitHub - code repository to host all source code and configuration files

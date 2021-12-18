@@ -29,7 +29,7 @@ echo "<!DOCTYPE html>
     <p id='fortune'>Loading...</p>
     <p>Version 0.2</p>
     <script>
-    fetch('http://random-fortune-alb-194793581.us-east-1.elb.amazonaws.com').then(resp => resp.json()).then(data => {
+    fetch('http://random-fortune-alb-1107252489.us-east-1.elb.amazonaws.com/').then(resp => resp.json()).then(data => {
         document.getElementById('fortune').innerText = data['fortune']
     });
     </script>
