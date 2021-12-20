@@ -5,7 +5,7 @@ This demo will deploy a serverless web application that fetches a randomly gener
 Current example of running project:
 
 - [Lambda Function behind ALB](http://random-fortune-alb-1117255608.us-east-1.elb.amazonaws.com)
-- [Web Server calling Lambda Function](http://fortune-webapp-alb-672297650.us-east-1.elb.amazonaws.com)
+- [Web Server calling Lambda Function](http://fortune-webapp-alb-143306103.us-east-1.elb.amazonaws.com/)
 
 The toolset used to build this project is:
 
@@ -394,5 +394,5 @@ The toolset used to build this project is:
       }
       ```
 
-- FInished bulk of AWS resources to `exercise_2` deployment source code
+- Finished bulk of AWS resources to `exercise_2` deployment source code
 - Web application deployment is now fully functional and exercise is ready to be submitted
