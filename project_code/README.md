@@ -256,29 +256,143 @@ The toolset used to build this project is:
       - AWS secret key
 - Debugging is needed for custom Lambda application
   - CloudWatch logging group, IAM and attachment resources were added to Terraform deployment to allow for detailed Lambda logging
-- Issue: Lambda function giving HTTP 503 error
-  - Solution: Function was missing an IAM role, so one was created and attached with Terraform
-- Issue: Error with Lambda function being loaded on AWS:
+  - Issue: Lambda function giving HTTP 503 error
+    - Solution: Function was missing an IAM role, so one was created and attached with Terraform
+  - Issue: Error with Lambda function being loaded on AWS:
 
-  ```Python
-  Unable to import module 'lambda_function': No module named 'lambda_function'
-  ```
+    ```Python
+    Unable to import module 'lambda_function': No module named 'lambda_function'
+    ```
 
-  - Solution: The file name of the Lambda function was incorrectly defined; the correct syntax is `PYTHON_FILE_NAME.METHOD_NAME` so the proper Lambda function handler is called
-- Issue: Error with `requests` library not loaded on Lambda function:
+    - Solution: The file name of the Lambda function was incorrectly defined; the correct syntax is `PYTHON_FILE_NAME.METHOD_NAME` so the proper Lambda function handler is called
+  - Issue: Error with `requests` library not loaded on Lambda function:
 
-  ```Python
-  Unable to import module 'lambda_function': No module named 'requests'
-  ```
+    ```Python
+    Unable to import module 'lambda_function': No module named 'requests'
+    ```
 
-  - Solution: the required `requests` library for HTTP GET requests needs installation in the root directory of the application code using:
+    - Solution: the required `requests` library for HTTP GET requests needs installation in the root directory of the application code using:
 
-     ``` bash
-     pip install --target="./" requests
-     ```
+      ``` bash
+      pip install --target="./" requests
+      ```
 
     - AWS Lambda does not come with many commonly-used Python libraries; they have to be packaged with the application, or separately uploaded using Lambda layers
 
 ### **2021-11-25**
 
 #### Attempted to implement an ALB
+
+- Created subnets to hold ALB
+  - Issue: problems with creating subnets within VPC:
+  
+    ``` HCL
+    Error: error creating subnet: InvalidSubnet.Range`
+    ```
+  
+    - Solution: used a subnet calculator to fix the ranges
+
+### **2021-11-27**
+
+#### Finishing up work on `exercise_1`
+
+- Fixing deployment issues with ALB
+  - Issue: there was only one subnet specified:
+
+    ``` HCL
+    Error: error creating application Load Balancer: ValidationError: At least two subnets in two different Availability Zones must be specified`
+    ```
+
+    - Solution: was able to create both subnets with proper CIDR ranges
+  - An `aws_elb_attachment` resource needed to be created
+
+### **2021-11-29**
+
+#### Began work on `exercise_2`
+
+- Created project skeleton for `exercise_2 deployment`
+
+### **2021-11-30**
+
+#### Continuing work on `exercise_2`
+
+- Fixing up the web application front end code
+  - Issue: the Lambda function created from `exercise_1` was not able to be tested locally for debugging
+    - Solution: the Python source code for the Lambda application from `exercise_1` needs additional code added to allow "cross-origin" HTTP headers:
+
+      ``` JSON
+       "headers": {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET', # Enabling common HTTP request types
+                'Access-Control-Allow-Origin': '*', # Cross-origin is disabled by default; enabled for debugging
+                'Access-Control-Allow-Headers': 'Content-Type' # Enabling HTTP headers
+            }
+      ```
+
+  - Issue: the embedded JavaScript within the HTML code of the web application home page does not properly display the created Lambda function from `exercise_1`
+    - Solution: the JavaScript code is fixed and properly able to display the Lambda function:
+
+      ``` HTML
+      <body>
+        <h2>Your fortune is:</h2>
+        <p id='fortune'>Loading...</p>
+        <p>Version 0.2</p>
+        <script>
+        fetch('INSERT_URL_OF_LAMBDA_HERE').then(resp => resp.json()).then(data => {
+          document.getElementById('fortune').innerText = data['fortune']
+        });
+        </script>
+      </body>
+      </html>
+
+      ```
+
+### **2021-12-01**
+
+#### Additional debugging on `exercise_2` deployment
+
+- Created `generate_key.sh` script to generate unique SSH keypair locally for use with instance deployment
+- Used `aws_ami` data source for instance deployment
+- Default VPC caused issues
+  - Issue: error with creating EC2 instances `Error: Default subnet not found`
+    - Solution: an `aws_default_subnet` Terraform resource needed to be created
+
+### **2021-12-02**
+
+#### Finalizing `exercise_2` deployment
+
+- Security issues
+  - Issue: pinging the instance's IP for debugging does not work
+    - Solution: the instance needs permissive rules for ICMP traffic:
+
+      ``` HCL
+      resource "aws_security_group" "fortune-security-group" {
+      name        = "fortune-security-group"
+      description = "Allow SSH/HTTP/HTTPS"
+      vpc_id      = aws_vpc.fortune-vpc.id
+      ingress { # Allow all ICMP for ping test
+        from_port   = -1
+        to_port     = -1
+        protocol    = "icmp"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
+      ```
+
+  - Issue: attempting to connect to any created EC2 instances throws an `ERR_CONNECTION_REFUSED` browser error
+    - Solution: the instance needs permissive rules for HTTP traffic on port 22:
+
+      ``` HCL
+      resource "aws_security_group" "fortune-security-group" {
+      name        = "fortune-security-group"
+      description = "Allow SSH/HTTP/HTTPS"
+      vpc_id      = aws_vpc.fortune-vpc.id
+      ingress { # Allow HTTP
+        from_port   = 80
+        to_port     = 80
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
+      ```
+
+- FInished bulk of AWS resources to `exercise_2` deployment source code
+- Web application deployment is now fully functional and exercise is ready to be submitted
