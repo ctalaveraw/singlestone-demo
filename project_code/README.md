@@ -4,8 +4,8 @@ This demo will deploy a serverless web application that fetches a randomly gener
 
 Current example of running project:
 
-- [Lambda Function behind ALB](http://random-fortune-alb-1117255608.us-east-1.elb.amazonaws.com)
-- [Web Server calling Lambda Function](http://fortune-webapp-alb-143306103.us-east-1.elb.amazonaws.com/)
+- [Lambda Function behind ALB](http://random-fortune-alb-214753831.us-east-1.elb.amazonaws.com/)
+- [Web Server calling Lambda Function](http://fortune-webapp-alb-1552706174.us-east-1.elb.amazonaws.com)
 
 The toolset used to build this project is:
 
